@@ -1,0 +1,37 @@
+:root {
+  font-family:
+    "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #2d302d;
+  background: #faf4e8;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --paper: #faf4e8;
+  --ink: #2d302d;
+  --muted: #73756b;
+  --line: #d8d5c8;
+  --yellow: #f5c542;
+  --coral: #e86a5a;
+  --blue: #6a9bd8;
+  --pink: #efa8c0;
+}
+.theme-nijika {
+  --accent: #967213;
+  --tint: #f2d878;
+  --section-paper: #f5f0dc;
+}
+.theme-kita {
+  --accent: #b95348;
+  --tint: #edb2a4;
+  --section-paper: #faf0e8;
+}
+.theme-ryo {
+  --accent: #426c80;
+  --tint: #adcad7;
+  --section-paper: #eaf0ef;
+}
+.theme-bocchi {
+  --accent: #a55c78;
+  --tint: #e3b5c4;
+  --section-paper: #f4e4e7;
+}

@@ -1,0 +1,14 @@
+node_modules
+dist
+.vite
+.next
+out
+.env*
+!.env.example
+*.tsbuildinfo
+artifacts/
+migration-backup/
+output/
+private-assets/
+.openai/
+*.log
