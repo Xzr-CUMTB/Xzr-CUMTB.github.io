@@ -1,0 +1,167 @@
+/* Keep the 128px line-art loops independent of the companion PNG's size.
+   Tiny percentage widths used to discard most of their fine line detail. */
+.floating-gif {
+  --gif-size: 128px;
+  display: block;
+  width: var(--gif-size);
+  flex: 0 0 var(--gif-size);
+  opacity: 1;
+  pointer-events: none;
+}
+
+.line-gif {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* These are detailed drawings, unlike the pixel-art companion PNGs. */
+  image-rendering: auto;
+  mix-blend-mode: normal;
+  filter: contrast(1.2);
+}
+
+.section-character .floating-gif {
+  position: absolute;
+  width: var(--gif-size);
+  top: auto;
+  bottom: 0;
+  right: calc(100% + 8px);
+}
+
+/* Use the blank right half of the pass footer, clear of the bio and barcode. */
+.about-guide,
+.about-guide:hover {
+  transform: none;
+}
+.about-guide .floating-gif {
+  right: calc(100% - 8px);
+  bottom: 12px;
+}
+.pass-instrument {
+  right: 18px;
+  bottom: 140px;
+  width: 32px;
+}
+
+/* Stage doodles sit at the outer edges, away from the main performers. */
+.stage-gif {
+  position: absolute;
+  z-index: 5;
+  opacity: 0.92;
+  filter: invert(1);
+}
+.stage-gif--one {
+  top: 21%;
+  left: 2%;
+  transform: none;
+}
+.stage-gif--two {
+  bottom: 3%;
+  left: -3%;
+}
+.stage-gif .floating-gif {
+  --gif-size: 96px;
+  width: var(--gif-size);
+}
+.stage-gif small {
+  font-size: 7px;
+  text-align: center;
+  letter-spacing: 0.12em;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Reserve actual space in the equipment strip instead of overflowing it. */
+.setlist-footer .section-character,
+.studio-stickers .section-character {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: auto;
+}
+.setlist-footer .section-character {
+  margin: 0;
+}
+.setlist-footer .section-character > .character-art {
+  width: 58px;
+  flex: 0 0 58px;
+}
+.setlist-footer .floating-gif {
+  position: static;
+}
+.studio-stickers .section-character > .character-art {
+  width: 45px;
+  flex: 0 0 45px;
+}
+.studio-stickers .floating-gif {
+  position: static;
+  --gif-size: 96px;
+  filter: invert(1);
+}
+
+.ending-art .backstage-wall > .section-character {
+  transform: none;
+}
+.ending-art .floating-gif {
+  --gif-size: 96px;
+  top: auto;
+  bottom: 60px;
+  right: 0;
+  width: var(--gif-size);
+}
+
+.scene-gif {
+  position: absolute;
+  text-align: center;
+  color: var(--collection-ink);
+  z-index: 3;
+  right: 0;
+  width: 128px;
+  bottom: 14%;
+}
+.scene-gif .floating-gif {
+  width: var(--gif-size);
+  opacity: 1;
+  margin: auto;
+}
+
+@media (max-width: 800px) {
+  .floating-gif {
+    --gif-size: 96px;
+  }
+  .about-guide .floating-gif {
+    top: auto;
+    right: calc(100% - 8px);
+    bottom: 12px;
+    width: var(--gif-size);
+  }
+  .pass-instrument {
+    bottom: 112px;
+  }
+  .scene-gif {
+    width: 96px;
+  }
+  .stage-gif .floating-gif {
+    --gif-size: 80px;
+  }
+  .studio-stickers .floating-gif,
+  .ending-art .floating-gif {
+    --gif-size: 80px;
+  }
+  .setlist-footer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+  }
+  .setlist-footer > span:first-child {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+  .setlist-footer > span:last-child {
+    text-align: right;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .floating-gif {
+    display: none;
+  }
+}

@@ -5,6 +5,7 @@ import "./styles/theme.css";
 import "./styles/globals.css";
 import "./styles/livehouse.css";
 import "./styles/collections.css";
+import "./styles/character-gifs.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />

@@ -441,30 +441,7 @@
     transform: rotate(8deg) translateY(2px);
   }
 }
-.stage-gif {
-  position: absolute;
-  z-index: 5;
-  filter: invert(1);
-  opacity: 0.5;
-}
-.stage-gif--one {
-  top: 36%;
-  left: 29%;
-  transform: rotate(-8deg);
-}
-.stage-gif--two {
-  bottom: 9%;
-  left: 3%;
-}
-.stage-gif .floating-gif {
-  width: 46px;
-}
-.stage-gif small {
-  font-size: 6px;
-  letter-spacing: 0.12em;
-  display: block;
-  margin-top: 2px;
-}
+
 .stage-front-note {
   position: absolute;
   right: 2%;
@@ -1168,9 +1145,7 @@
   width: 45px;
   margin-left: 12px;
 }
-.studio-stickers .floating-gif {
-  filter: invert(1);
-}
+
 /* Backstage */
 .contact-section {
   background: #efced8;
@@ -1563,9 +1538,7 @@
   .stage-light--blue {
     right: -10%;
   }
-  .stage-gif .floating-gif {
-    width: 36px;
-  }
+
   .ticket-badge {
     padding: 10px 13px 10px 9px;
     gap: 10px;
@@ -1870,12 +1843,7 @@
     letter-spacing: 0.08em;
     bottom: -1%;
   }
-  .stage-gif .floating-gif {
-    width: 29px;
-  }
-  .stage-gif small {
-    font-size: 4px;
-  }
+
   .lighting-truss i {
     width: 8px;
     height: 13px;

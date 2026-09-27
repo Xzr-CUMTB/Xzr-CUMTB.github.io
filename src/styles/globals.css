@@ -559,16 +559,7 @@ p {
   border-radius: 50%;
   filter: blur(3px);
 }
-.floating-gif {
-  display: block;
-  width: 42px;
-  opacity: 0.58;
-  pointer-events: none;
-}
-.line-gif {
-  filter: none;
-  mix-blend-mode: multiply;
-}
+
 .band-member > .floating-gif {
   position: absolute;
   width: 36%;
@@ -683,12 +674,7 @@ p {
 .section-character:hover {
   transform: translateY(-5px) rotate(3deg);
 }
-.section-character .floating-gif {
-  position: absolute;
-  top: 10%;
-  right: -35%;
-  width: 40%;
-}
+
 .about-grid {
   display: grid;
   grid-template-columns: 340px 1fr;
@@ -1332,11 +1318,7 @@ p {
 .ending-art .section-character:hover {
   transform: rotate(-2deg) translateY(-5px);
 }
-.ending-art .floating-gif {
-  right: -32%;
-  width: 33%;
-  top: -1%;
-}
+
 .ending-orbit {
   position: absolute;
   width: 95%;
@@ -1872,7 +1854,7 @@ p {
   .skills-footnote span {
     font-size: 7px;
   }
-  .skills-footnote span:last-child {
+  .skills-footnote > span:last-child {
     display: none;
   }
   .skills-footnote p {
@@ -2115,13 +2097,6 @@ p {
     font-size: 11px;
   }
 }
-@media (max-width: 800px) {
-  .about-guide .floating-gif {
-    right: 5%;
-    top: -17%;
-    width: 32px;
-  }
-}
 @media (max-width: 520px) {
   .hero {
     padding-top: 90px;
@@ -2191,8 +2166,5 @@ p {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-  .floating-gif {
-    display: none;
   }
 }

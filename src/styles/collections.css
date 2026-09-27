@@ -400,22 +400,7 @@
   left: 33%;
   bottom: 10%;
 }
-.scene-gif {
-  position: absolute;
-  bottom: 16%;
-  right: 2%;
-  width: 21%;
-  text-align: center;
-  color: var(--collection-ink);
-  z-index: 3;
-}
-.scene-gif .floating-gif {
-  width: 57px;
-  position: relative;
-  display: block;
-  margin: auto;
-  opacity: 0.65;
-}
+
 .scene-gif > span {
   font-size: 5px;
   line-height: 1.4;
@@ -1205,9 +1190,7 @@
   .scene-volume {
     font-size: 145px;
   }
-  .scene-gif .floating-gif {
-    width: 42px;
-  }
+
   .scene-caption > span {
     font-size: 6px;
   }
