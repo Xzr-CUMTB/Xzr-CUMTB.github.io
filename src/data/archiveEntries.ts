@@ -1,134 +1,88 @@
+import { paperGroup, publications } from "./publications";
+import { researchProjects } from "./research";
 import type { ArchiveEntry, CollectionId } from "./collections";
 
-// Facts transcribed from the user's 2026-09-27 resume. Add links only when supplied.
+// Publication records supply the status, dates and cross-links for both archives.
 // A new entry here automatically updates the home record count, filters and detail page.
 export const archiveEntries: Record<CollectionId, ArchiveEntry[]> = {
-  papers: [
+  papers: publications.map((p) => ({
+    id: p.id,
+    title: p.title,
+    category: paperGroup(p.status),
+    status: p.status,
+    date: p.publishedDate ?? p.acceptedDate ?? p.submittedDate ?? p.year,
+    description: p.titleZh ?? "",
+    facts: [
+      {
+        label: "期刊",
+        value: [p.journal, p.citation].filter(Boolean).join(" · "),
+      },
+      ...(p.statusDate ? [{ label: "状态更新", value: p.statusDate }] : []),
+      ...(p.authorRole ? [{ label: "我的署名", value: p.authorRole }] : []),
+      ...(p.authors ? [{ label: "作者", value: p.authors.join(", ") }] : []),
+    ],
+    tags: p.keywords,
+    url: p.url,
+    project: p.project,
+    related: p.archiveProject
+      ? { href: `/projects#${p.archiveProject.id}`, label: "研究项目" }
+      : undefined,
+  })),
+  projects: [
+    ...researchProjects.map((p) => ({
+      id: p.id,
+      title: p.title,
+      category: "近期研究",
+      status: p.status,
+      description: p.summary,
+      tags: p.tags,
+      project: p.id,
+    })),
+    ...publications.flatMap((p) =>
+      p.archiveProject
+        ? [
+            {
+              id: p.archiveProject.id,
+              title: p.titleZh || p.title,
+              category: "其他研究",
+              description: p.archiveProject.summary,
+              tags: p.keywords,
+              related: { href: `/papers#${p.id}`, label: "论文进展" },
+            },
+          ]
+        : [],
+    ),
+    {
+      id: "flood-review",
+      title:
+        "More accurate flood maps can leave more inundation undetected after limited review",
+      category: "其他研究",
+      description:
+        "比较人工复核预算受限时，不同洪灾制图方法留下的漏检淹没区域。",
+      tags: ["洪灾遥感", "人工复核"],
+    },
+    {
+      id: "driver-warning",
+      title: "驾驶员状态识别与事件级预警",
+      category: "其他研究",
+      description: "从视频片段识别延伸到事件级预警，检查评估中的数据泄漏。",
+      tags: ["人因安全", "视频分析"],
+    },
     {
       id: "ar-node",
       title: "基于 AR-NODE 模型的雾滴粒径预测及优化研究",
-      category: "合作论文",
-      status: "终审",
+      category: "其他研究",
       description: "围绕雾滴粒径预测与优化，连接数据建模与矿井喷雾降尘问题。",
-      facts: [
-        { label: "期刊", value: "煤炭学报" },
-        { label: "作者信息", value: "导师第一作者" },
-      ],
       tags: ["AR-NODE", "喷雾优化", "安全工程"],
-    },
-    {
-      id: "low-altitude",
-      title: "First-passage safety margins for low-altitude urban missions",
-      category: "第一作者",
-      status: "外审",
-      description:
-        "研究城市低空任务中的首次越界安全裕度，探索动态任务中的风险边界。",
-      facts: [
-        { label: "期刊", value: "Communications Engineering" },
-        { label: "作者信息", value: "第一作者" },
-      ],
-      tags: ["低空安全", "First-passage", "风险边界"],
     },
     {
       id: "riverine-parks",
       title:
         "Climate-triggered reactive safety margins for riverine chemical-industrial parks",
-      category: "第一作者",
-      status: "外审",
+      category: "其他研究",
       description: "关注气候事件触发下，沿江化工园区的反应性安全裕度。",
-      facts: [
-        { label: "期刊", value: "Communications Engineering" },
-        { label: "作者信息", value: "第一作者" },
-      ],
       tags: ["气候风险", "化工园区", "安全裕度"],
     },
-    {
-      id: "dust-to-power",
-      title:
-        "Event-scale dust-to-power continuity risk for photovoltaic infrastructure in northern China",
-      category: "第一作者",
-      status: "拟接收",
-      description:
-        "连接环境事件与光伏发电连续性，关注中国北方光伏基础设施的事件尺度风险。",
-      facts: [
-        { label: "期刊", value: "npj Clean Energy" },
-        { label: "作者信息", value: "第一作者" },
-      ],
-      tags: ["光伏", "沙尘事件", "Continuity"],
-    },
-    {
-      id: "quantum-safety",
-      title:
-        "Evidence gated qualification of quantum methods in safety critical engineering",
-      category: "第一作者",
-      status: "WE",
-      description: "关注安全关键工程中，量子方法的证据门控资格评估。",
-      facts: [
-        {
-          label: "期刊",
-          value: "Engineering Applications of Artificial Intelligence",
-        },
-        { label: "作者信息", value: "第一作者" },
-      ],
-      tags: ["量子方法", "证据评估", "安全关键工程"],
-    },
-    {
-      id: "robotic-rewards",
-      title:
-        "From success scores to stopping reliability: False-completion assessment of robotic reward models",
-      category: "第一作者",
-      status: "WE",
-      description:
-        "从成功评分走向停止可靠性，研究机器人奖励模型的错误完成评估。",
-      facts: [
-        { label: "期刊", value: "Reliability Engineering & System Safety" },
-        { label: "作者信息", value: "第一作者" },
-      ],
-      tags: ["机器人", "奖励模型", "可靠性"],
-    },
-    {
-      id: "cuo-wettability",
-      title:
-        "Enhancing the wettability of bituminous coal using CuO nanofluids: Experimental characterization and simulation analysis",
-      category: "合作论文",
-      status: "Online",
-      description:
-        "通过实验表征与模拟分析，研究 CuO 纳米流体对烟煤润湿性的改善。",
-      facts: [
-        { label: "期刊", value: "Fuel" },
-        { label: "作者信息", value: "非第一作者" },
-      ],
-      tags: ["CuO 纳米流体", "润湿性", "实验与模拟"],
-    },
-    {
-      id: "coal-interface",
-      title:
-        "Interfacial wetting mechanisms of coal: Modulation by benzene ring containing surfactants",
-      category: "合作论文",
-      status: "Online",
-      description: "研究含苯环表面活性剂对煤表面界面润湿机制的调控。",
-      facts: [
-        { label: "期刊", value: "Chemical Engineering Science" },
-        { label: "作者信息", value: "非第一作者" },
-      ],
-      tags: ["界面润湿", "表面活性剂", "煤"],
-    },
-    {
-      id: "eo-surfactants",
-      title:
-        "EO 非离子表面活性剂对烟煤表面的润湿性改性：实验和分子动力学模拟研究",
-      category: "合作论文",
-      status: "Online",
-      description:
-        "结合实验与分子动力学模拟，研究非离子表面活性剂的润湿性改性。",
-      facts: [
-        { label: "期刊", value: "材料导报" },
-        { label: "作者信息", value: "企业人员第一作者" },
-      ],
-      tags: ["非离子表面活性剂", "分子动力学", "烟煤"],
-    },
-  ],
-  projects: [
     {
       id: "dananhu-dust",
       title: "大南湖七号煤矿矿井智能防尘系统研究与应用项目",
@@ -225,13 +179,9 @@ export const archiveEntries: Record<CollectionId, ArchiveEntry[]> = {
       id: "dust-decision-tree",
       title: "基于物理约束可微分决策树的矿井喷雾降尘优化方法及系统",
       category: "专利",
-      status: "状态待补充",
       description:
         "将物理约束与可微分决策树结合，面向矿井喷雾降尘的优化方法及系统。",
-      facts: [
-        { label: "研究方向", value: "矿井喷雾降尘优化" },
-        { label: "登记信息", value: "申请号、授权状态及日期待补充" },
-      ],
+      facts: [{ label: "研究方向", value: "矿井喷雾降尘优化" }],
       tags: ["物理约束", "可微分决策树", "矿井安全"],
     },
   ],

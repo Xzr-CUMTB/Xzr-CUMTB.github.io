@@ -10,11 +10,15 @@ export function MusicPlayer() {
   const contextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const busyRef = useRef(false);
-  const { isPlaying, setIsPlaying } = useRoomRadio();
+  const { isPlaying, setIsPlaying, isVideoPlaying } = useRoomRadio();
   const [hasError, setHasError] = useState(false);
   const [busy, setBusy] = useState(false);
   const [bars, setBars] = useState(QUIET_BARS);
   const reduced = useReducedMotion();
+
+  useEffect(() => {
+    if (isVideoPlaying) audioRef.current?.pause();
+  }, [isVideoPlaying]);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -94,7 +98,10 @@ export function MusicPlayer() {
         src={AUDIO_PATH}
         loop
         preload="none"
-        onPlaying={() => setIsPlaying(true)}
+        onPlaying={() => {
+          if (isVideoPlaying) audioRef.current?.pause();
+          else setIsPlaying(true);
+        }}
         onPause={() => {
           setIsPlaying(false);
           setBars(QUIET_BARS);
@@ -135,7 +142,8 @@ export function MusicPlayer() {
         <button
           className="play-button"
           onClick={togglePlayback}
-          disabled={busy}
+          disabled={busy || isVideoPlaying}
+          title={isVideoPlaying ? "演示播放期间，背景音乐暂停" : undefined}
           aria-label={isPlaying ? "暂停背景音乐" : "播放背景音乐"}
           aria-pressed={isPlaying}
         >

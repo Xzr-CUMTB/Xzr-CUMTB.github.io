@@ -5,6 +5,7 @@ import { collections } from "../src/data/collections.ts";
 
 // GitHub Pages has no SPA rewrite rule. Emit real entry files for each route,
 // so a shared link or browser refresh returns HTTP 200 rather than a 404 hack.
+import { researchProjects } from "../src/data/research.ts";
 export function staticPages(): Plugin {
   let output = "";
   return {
@@ -15,15 +16,24 @@ export function staticPages(): Plugin {
     },
     async closeBundle() {
       const html = await readFile(resolve(output, "index.html"), "utf8");
-      for (const collection of collections) {
-        if (!/^[a-z]+(?:-[a-z]+)*$/.test(collection.id)) {
+      for (const collection of [
+        ...collections,
+        ...researchProjects.map((p) => ({
+          id: `research/${p.id}`,
+          title: p.title,
+        })),
+      ]) {
+        if (!/^(?:research\/)?[a-z]+(?:-[a-z]+)*$/.test(collection.id)) {
           throw new Error(`Invalid static route: ${collection.id}`);
         }
         const directory = resolve(output, collection.id);
         await mkdir(directory, { recursive: true });
         await writeFile(
           resolve(directory, "index.html"),
-          html.replace(/<title>.*?<\/title>/s, `<title>${collection.title} · Xu Zirui Digital Livehouse</title>`),
+          html.replace(
+            /<title>.*?<\/title>/s,
+            `<title>${collection.title} · Xu Zirui Digital Livehouse</title>`,
+          ),
         );
       }
       await writeFile(resolve(output, "404.html"), html);

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { siteContent, experience, stats } from "../data/siteContent";
+import { siteContent, education, stats } from "../data/siteContent";
 import { Reveal } from "./Reveal";
 import { SectionTitle } from "./SectionTitle";
 import { SectionCharacter } from "./CharacterLayer";
@@ -8,8 +7,9 @@ import { FloatingSticker } from "./FloatingSticker";
 import { TicketBadge } from "./TicketBadge";
 import { livehouse } from "../data/livehouse";
 import { Icon } from "./Icon";
+import { researchDirections } from "../data/research";
+import { Link } from "react-router";
 export function AboutSection() {
-  const [tab, setTab] = useState("education");
   return (
     <section
       id="about"
@@ -46,7 +46,7 @@ export function AboutSection() {
               {siteContent.nameZh}
               <span>{siteContent.name}</span>
             </h3>
-            <p>安全科学与工程 · 硕士在读</p>
+            <p>安全科学与工程 · 硕博连读培养</p>
             <div className="profile-rule" />
             <span className="profile-location">◉ {siteContent.location}</span>
             <div className="profile-barcode" aria-hidden="true" />
@@ -69,6 +69,14 @@ export function AboutSection() {
               </h3>
               <p>{siteContent.about}</p>
               <p>{siteContent.approach}</p>
+              <div className="research-directions">
+                {researchDirections.map((d) => (
+                  <Link key={d.title} to={`/research/${d.project}`}>
+                    <strong>{d.title} ↗</strong>
+                    {d.description}
+                  </Link>
+                ))}
+              </div>
               <div className="about-links">
                 <a href={`mailto:${siteContent.email}`}>
                   <Icon name="mail" size={17} /> Email <Icon size={14} />
@@ -78,56 +86,20 @@ export function AboutSection() {
                 </a>
               </div>
             </Reveal>
-            <div
-              className="experience-tabs"
-              role="tablist"
-              aria-label="经历类型"
-            >
-              {[
-                { id: "education", label: "Education / 教育" },
-                { id: "practice", label: "Experience / 实习" },
-              ].map((item) => (
-                <button
-                  id={`tab-${item.id}`}
-                  key={item.id}
-                  role="tab"
-                  aria-selected={tab === item.id}
-                  aria-controls="experience-panel"
-                  onClick={() => setTab(item.id)}
-                  onKeyDown={(event) => {
-                    if (
-                      event.key === "ArrowRight" ||
-                      event.key === "ArrowLeft"
-                    ) {
-                      const next =
-                        tab === "education" ? "practice" : "education";
-                      setTab(next);
-                      document.getElementById(`tab-${next}`)?.focus();
-                    }
-                  }}
-                >
-                  {item.label}
-                </button>
-              ))}
+            <div className="experience-tabs">
+              <h4>Education / 教育</h4>
             </div>
-            <div
-              id="experience-panel"
-              className="timeline"
-              role="tabpanel"
-              aria-labelledby={`tab-${tab}`}
-            >
-              {experience
-                .filter((item) => item.type === tab)
-                .map((item) => (
-                  <div className="timeline-item" key={item.title}>
-                    <span className="timeline-date">{item.date}</span>
-                    <div>
-                      <h4>{item.title}</h4>
-                      <p>{item.role}</p>
-                      <small>{item.detail}</small>
-                    </div>
+            <div className="timeline">
+              {education.map((item) => (
+                <div className="timeline-item" key={item.title}>
+                  <span className="timeline-date">{item.date}</span>
+                  <div>
+                    <h4>{item.title}</h4>
+                    <p>{item.role}</p>
+                    <small>{item.detail}</small>
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
           </div>
         </div>

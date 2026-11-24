@@ -52,8 +52,21 @@ export const livehouse = {
 export const studioTools = [
   "Python",
   "JavaScript",
+  "MATLAB",
+  "ECharts",
   "D3.js",
   "Three.js",
-  "AI Agent",
-  "Data Visualization",
+  "QGIS",
+  "Origin",
+];
+export const workflowTools = [
+  "ChatGPT",
+  "Claude",
+  "Gemini",
+  "LLM 应用",
+  "Agent 工作流",
+  "数据处理",
+  "程序辅助开发",
+  "科学可视化",
+  "内容生成与自动化",
 ];

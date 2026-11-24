@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router";
+import {
+  Link,
+  NavLink,
+  useNavigate,
+  useSearchParams,
+  useLocation,
+} from "react-router";
 import {
   collections,
   collectionStyle,
@@ -15,14 +21,33 @@ import { SectionCharacter } from "../components/CharacterLayer";
 import { Reveal } from "../components/Reveal";
 import { Icon } from "../components/Icon";
 
+import { InternshipTimeline } from "../components/InternshipTimeline";
+import { paperFilters, type PaperFilter } from "../data/publications";
+
 export function CollectionPage({ collection: c }: { collection: Collection }) {
   const entries = archiveEntries[c.id];
-  const [filter, setFilter] = useState("全部");
+  const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const { hash } = useLocation();
+  const group = params.get("group") || "all";
+  const filter = c.filters.includes(group) ? group : "all";
+  function setFilter(value: string) {
+    const nextParams = new URLSearchParams(params);
+    if (value === "all") nextParams.delete("group");
+    else nextParams.set("group", value);
+    navigate(
+      {
+        search: nextParams.toString(),
+        hash: hash && hash !== "#archive-records" ? "#archive-records" : hash,
+      },
+      { preventScrollReset: true },
+    );
+  }
   const [query, setQuery] = useState("");
   const normalized = query.trim().toLowerCase();
   const visible = entries.filter(
     (entry) =>
-      (filter === "全部" || entry.category === filter) &&
+      (filter === "all" || entry.category === filter) &&
       [
         entry.title,
         entry.description,
@@ -95,6 +120,11 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
                 <a className="archive-browse" href="#archive-records">
                   翻阅这份记录 <Icon name="down" size={17} />
                 </a>
+                {c.id === "honors" && (
+                  <a className="text-link" href="#internships">
+                    实习经历 ↓
+                  </a>
+                )}
                 <span className="archive-count">
                   <strong>{String(entries.length).padStart(2, "0")}</strong>
                   RECORDS / 持续更新
@@ -110,6 +140,7 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
             <span>VOL. {c.number} / OPEN ENDED</span>
           </div>
         </section>
+        {c.id === "honors" && <InternshipTimeline />}
         <section
           id="archive-records"
           className="archive-body shell"
@@ -123,24 +154,28 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
               </h2>
             </div>
             <p>
-              记录依据 {siteContent.resumeUpdated} 简历
+              内容更新于 2026.11.24
               <br />
               {c.id === "papers"
-                ? "保留原始进展；WE 为简历所用状态缩写。"
+                ? "按发表、接收或投稿阶段查找论文。"
                 : "更多经历与成果，陆续收录。"}
             </p>
           </div>
           <div className="archive-controls">
             <div className="archive-filters" aria-label="档案分类筛选">
-              {["全部", ...c.filters].map((value) => (
+              {["all", ...c.filters].map((value) => (
                 <button
                   key={value}
                   aria-pressed={value === filter}
                   onClick={() => setFilter(value)}
                 >
-                  {value}
+                  {c.id === "papers"
+                    ? paperFilters[value as PaperFilter]
+                    : value === "all"
+                      ? "全部"
+                      : value}
                   <small>
-                    {value === "全部"
+                    {value === "all"
                       ? entries.length
                       : entries.filter((e) => e.category === value).length}
                   </small>
@@ -186,7 +221,7 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
                   <button
                     onClick={() => {
                       setQuery("");
-                      setFilter("全部");
+                      setFilter("all");
                     }}
                   >
                     查看全部记录 ↗
@@ -194,7 +229,7 @@ export function CollectionPage({ collection: c }: { collection: Collection }) {
                 </div>
               )}
               {c.id === "intellectual-property" &&
-                filter === "全部" &&
+                filter === "all" &&
                 !query && (
                   <div className="archive-footnote">
                     软件著作权记录尚未提供；专利申请号及授权状态将在资料补齐后更新。

@@ -11,15 +11,24 @@ import { ProjectsSection } from "./components/ProjectsSection";
 import { StrengthsSection } from "./components/StrengthsSection";
 import { ContactSection } from "./components/ContactSection";
 import { MusicPlayer } from "./components/MusicPlayer";
+import { ResearchSection, ResearchNews } from "./components/ResearchSection";
+import { PublicationsSection } from "./components/PublicationsSection";
+import { researchProjects } from "./data/research";
+import { ResearchPage } from "./pages/ResearchPage";
 function RoutePosition() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
     const collection = collections.find(
       (c) => pathname === `/${c.id}` || pathname === `/${c.id}/`,
     );
-    document.title = collection
-      ? `${collection.title} · Xu Zirui Digital Livehouse`
-      : "Xu Zirui · Digital Livehouse";
+    const research = researchProjects.find(
+      (p) => pathname.replace(/\/$/, "") === `/research/${p.id}`,
+    );
+    document.title = research
+      ? `${research.title} · Xu Zirui`
+      : collection
+        ? `${collection.title} · Xu Zirui Digital Livehouse`
+        : "Xu Zirui · Digital Livehouse";
     const frame = requestAnimationFrame(() => {
       if (hash) document.getElementById(hash.slice(1))?.scrollIntoView();
       else window.scrollTo({ top: 0, behavior: "instant" });
@@ -38,8 +47,11 @@ function HomePage() {
       <Navbar />
       <main>
         <HeroSection />
+        <ResearchNews />
         <AboutSection />
         <ProjectsSection />
+        <ResearchSection />
+        <PublicationsSection />
         <StrengthsSection />
         <ContactSection />
       </main>
@@ -55,6 +67,7 @@ export function App() {
           <RoutePosition />
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/research/:id" element={<ResearchPage />} />
             {collections.map((c) => (
               <Route
                 key={c.id}

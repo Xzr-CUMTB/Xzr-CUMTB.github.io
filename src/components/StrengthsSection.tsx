@@ -1,9 +1,10 @@
+import { Link } from "react-router";
 import { strengths } from "../data/strengths";
 import { Reveal } from "./Reveal";
 import { SectionTitle } from "./SectionTitle";
 import { SectionCharacter } from "./CharacterLayer";
 import { Icon } from "./Icon";
-import { livehouse, studioTools } from "../data/livehouse";
+import { livehouse, studioTools, workflowTools } from "../data/livehouse";
 import { AssetImage } from "./AssetImage";
 import { FloatingSticker } from "./FloatingSticker";
 export function StrengthsSection() {
@@ -16,7 +17,7 @@ export function StrengthsSection() {
       <div className="shell">
         <Reveal className="strengths-heading">
           <SectionTitle
-            number="04"
+            number="06"
             label="THE STUDIO / MY EQUIPMENT"
             title="不同技能，"
             accent="同一个节奏"
@@ -55,6 +56,10 @@ export function StrengthsSection() {
             ))}
           </div>
         </div>
+        <div className="workflow-tools">
+          <strong>AI 工具与工作流</strong>
+          <p>{workflowTools.join(" · ")}</p>
+        </div>
         <div className="strengths-grid">
           {strengths.map((s, i) => (
             <Reveal key={s.number} delay={i * 0.035}>
@@ -67,6 +72,9 @@ export function StrengthsSection() {
                 <h4>{s.titleZh}</h4>
                 <p>{s.description}</p>
                 <small>{s.tools}</small>
+                <Link className="text-link" to={`/research/${s.project}`}>
+                  项目证据 ↗
+                </Link>
               </article>
             </Reveal>
           ))}

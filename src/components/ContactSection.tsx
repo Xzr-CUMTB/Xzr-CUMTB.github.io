@@ -26,7 +26,7 @@ export function ContactSection() {
       <div className="contact-grain paper-grain" />
       <div className="shell contact-inner">
         <Reveal>
-          <p className="eyebrow">05 / AFTER THE SHOW · THE BACKSTAGE</p>
+          <p className="eyebrow">07 / AFTER THE SHOW · THE BACKSTAGE</p>
           <span className="ending-note">また、会いましょう。</span>
           <h2 id="contact-title">
             故事还没结束。

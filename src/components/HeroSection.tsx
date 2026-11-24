@@ -65,16 +65,19 @@ export function HeroSection() {
           </h1>
           <p className="hero-identity">{siteContent.identity}</p>
           <p className="hero-intro">
-            把复杂问题写成研究，把想法做成作品。
+            {siteContent.introduction}
             <br />
-            在这里，让好奇心发出一点声音。
+            粉尘防控 · 工程仿真 · 环境能源系统
           </p>
           <div className="hero-actions">
-            <a className="button button-yellow" href="#projects">
-              进入我的现场 <Icon />
+            <a className="button button-yellow" href="#research">
+              查看项目 <Icon />
+            </a>
+            <a className="text-link" href="#publications">
+              论文成果 <Icon size={16} />
             </a>
             <a className="text-link" href="#contact">
-              Let's connect <Icon size={16} />
+              联系我 <Icon size={16} />
             </a>
           </div>
           <div className="role-strip">
@@ -113,7 +116,7 @@ export function HeroSection() {
           </span>
         </div>
         <span className="hero-track-number">
-          SIDE A <i /> 01 / 05
+          SIDE A <i /> 01 / 07
         </span>
       </div>
     </section>

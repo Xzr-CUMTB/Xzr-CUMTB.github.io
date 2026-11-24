@@ -1,4 +1,5 @@
 import type { ArchiveEntry } from "../data/collections";
+import { Link } from "react-router";
 import { Icon } from "./Icon";
 
 export function ArchiveRecord({
@@ -16,14 +17,18 @@ export function ArchiveRecord({
       </div>
       <div className="archive-record-body">
         <div className="archive-record-meta">
-          <span>{entry.category}</span>
+          {!["published", "accepted", "submitted"].includes(entry.category) && (
+            <span>{entry.category}</span>
+          )}
           {entry.date && <span>{entry.date}</span>}
           {entry.status && (
-            <span className="archive-status">{entry.status}</span>
+            <span className="archive-status" data-status={entry.status}>
+              {entry.status}
+            </span>
           )}
         </div>
         <h3>{entry.title}</h3>
-        <p>{entry.description}</p>
+        {entry.description && <p>{entry.description}</p>}
         {entry.facts && (
           <dl>
             {entry.facts.map((fact) => (
@@ -40,6 +45,19 @@ export function ArchiveRecord({
               <span key={tag}>{tag}</span>
             ))}
           </div>
+        )}
+        {entry.project && (
+          <Link
+            className="text-link archive-source"
+            to={`/research/${entry.project}`}
+          >
+            查看项目详情 ↗
+          </Link>
+        )}
+        {entry.related && (
+          <Link className="text-link archive-source" to={entry.related.href}>
+            {entry.related.label} ↗
+          </Link>
         )}
         {entry.url && (
           <a
